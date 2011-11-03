@@ -6,11 +6,11 @@ module DtaGen
       include DtaGen::CharacterConversion
 
       def initialize(data = {})
-        @data = data
+        @data = data.each { |k, v| data[k] = dta_string(v.to_s) }
       end
 
       def to_dta
-        dta_string(record)
+        record
       end
 
       def segment1
@@ -154,19 +154,19 @@ module DtaGen
       end
 
       def beneficiary_address_line1(line_size=24)
-        dta_string(@data[:beneficiary_address_line1].to_s)[0, line_size].ljust(line_size)
+        @data[:beneficiary_address_line1].to_s[0, line_size].ljust(line_size)
       end
 
       def beneficiary_address_line2(line_size=24)
-        dta_string(@data[:beneficiary_address_line2].to_s)[0, line_size].ljust(line_size)
+        @data[:beneficiary_address_line2].to_s[0, line_size].ljust(line_size)
       end
 
       def beneficiary_address_line3(line_size=24)
-        dta_string(@data[:beneficiary_address_line3].to_s)[0, line_size].ljust(line_size)
+        @data[:beneficiary_address_line3].to_s[0, line_size].ljust(line_size)
       end
 
       def beneficiary_address_line4(line_size=24)
-        dta_string(@data[:beneficiary_address_line4].to_s)[0, line_size].ljust(line_size)
+        @data[:beneficiary_address_line4].to_s[0, line_size].ljust(line_size)
       end
 
       def reason_for_payment_message(line_size=24)

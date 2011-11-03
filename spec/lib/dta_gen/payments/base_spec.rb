@@ -1,8 +1,26 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe DtaGen::Payments::Base do
 
   let(:too_long_text) { 'I am way to long to fit in this line of the beneficiary adress' }
+
+  describe "it uses a minimal character set" do
+    subject { DtaGen::Payments::Base.new(:data_file_sender_identification => 'ÄöÜ') }
+
+    it "uses ISO-8859-1 for internal strings" do
+      subject.data_file_sender_identification.encoding.name.should == "ISO-8859-1"
+    end
+
+    it "replaces characters according to the DTA-specification" do
+      subject.data_file_sender_identification.should == "AEoeUE"
+    end
+
+    it "only works with strings internally" do
+      record = DtaGen::Payments::Base.new(:payment_amount => 12.5)
+      record.amount.should == '12.5'
+    end
+  end
 
   describe "beneficiary_address" do
     it "trims beneficiary_address_line1, when it exceedes the maximum length" do
