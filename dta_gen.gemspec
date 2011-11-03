@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Yves Senn"]
   s.email       = ["yves.senn@garaio.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{generate DTA-files according to the SIX specification}
+  s.description = %q{the specification can be found at: www.currency-iso.org/DE/dl_tkicch_dta.pdf}
 
   s.rubyforge_project = "dta_gen"
 
@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
 end
