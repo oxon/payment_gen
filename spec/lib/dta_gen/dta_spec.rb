@@ -1,23 +1,15 @@
 require 'spec_helper'
 
 describe DtaGen::DTA do
-  let(:dta_file_path) { File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'tmp', 'payments.dta')) }
-
-  it "should create a file" do
-    DtaGen::DTA.create(dta_file_path) do |file|
-      file << PaymentFactory.create_esr_payment
-    end
-    File.exist?(dta_file_path).should be_true
-  end
 
   it "should set the transaction_number for any record added" do
-    file = DtaGen::DTA.new(dta_file_path, "00123478901")
+    file = DtaGen::DTA.new("00123478901")
     file << PaymentFactory.create_esr_payment
     file.records.first.transaction_number.should == "00123478901"
   end
 
   it "should calculate the entry_sequence_number" do
-    file = DtaGen::DTA.new(dta_file_path)
+    file = DtaGen::DTA.new
     file << PaymentFactory.create_esr_payment
     file << PaymentFactory.create_esr_payment
 
@@ -26,7 +18,7 @@ describe DtaGen::DTA do
   end
 
   it "should calculate the total amount" do
-    file = DtaGen::DTA.new(dta_file_path)
+    file = DtaGen::DTA.new
     file << PaymentFactory.create_esr_payment(:payment_amount => 420.50)
     file << PaymentFactory.create_esr_payment(:payment_amount => 320.20)
     file.total.should == (420.50 + 320.20)
@@ -36,11 +28,13 @@ describe DtaGen::DTA do
     before(:each) do
       @record1 = PaymentFactory.create_esr_payment(:payment_amount => 2222.22)
       @record2 = PaymentFactory.create_esr_payment(:payment_amount => 4444.44)
-      @dta_file = DtaGen::DTA.create(dta_file_path) do |file|
-        file << @record1
-        file << @record2
-      end
-      @file_records = File.open(dta_file_path).readlines
+      stream = StringIO.new
+      @dta_file = DtaGen::DTA.new
+      @dta_file << @record1
+      @dta_file << @record2
+      @dta_file.write_to(stream)
+      stream.rewind
+      @file_records = stream.readlines
     end
 
     it "should add the records to the file in dta format" do
@@ -59,7 +53,7 @@ describe DtaGen::DTA do
       @record2 = PaymentFactory.create_esr_payment(:requested_processing_date  => "091026",:issuer_identification => "BBBBB")
       @record3 = PaymentFactory.create_esr_payment(:requested_processing_date  => "091026",:issuer_identification => "CCCCC")
       @record4 = PaymentFactory.create_esr_payment(:requested_processing_date  => "091028",:issuer_identification => "AAAAA")
-      @dta_file = DtaGen::DTA.new(dta_file_path)
+      @dta_file = DtaGen::DTA.new
       @dta_file << @record1
       @dta_file << @record2
       @dta_file << @record3

@@ -4,17 +4,20 @@ module DtaGen
   class DTA
     attr_reader :records
 
-    def initialize(path, transaction_number = rand(100000000000).to_s)
+    def initialize(transaction_number = rand(100000000000).to_s)
       @transaction_number = transaction_number.to_s
-      @path = path
       @records = SortedSet.new
     end
 
-    def write_file
-      File.open(@path,"w") do |file|
-        @records.each{|record| file.puts record.to_dta}
-        file.puts build_total_record.to_dta
+    def write_file(path)
+      File.open(path,"w") do |file|
+        write_to(file)
       end
+    end
+
+    def write_to(io)
+      @records.each{|record| io.puts record.to_dta}
+      io.puts build_total_record.to_dta
     end
 
     def total
@@ -27,13 +30,6 @@ module DtaGen
       record.transaction_number = @transaction_number
       @records << record
       recalculate_entry_sequence_numbers
-    end
-
-    def self.create(path)
-      dta_file = self.new(path)
-      yield dta_file
-      dta_file.write_file
-      dta_file
     end
 
     private
