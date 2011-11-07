@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PaymentGen::Records::TotalRecord do
+describe PaymentGen::DTARecords::TotalRecord do
   it 'should have the segment 1 field set' do
     PaymentFactory.create_total_record.segment1[0,2].should == '01'
   end

@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'PaymentGen::Records::ESRPayment' do
+describe 'PaymentGen::DTARecords::ESRPayment' do
   let(:create_payment_method) { :create_esr_payment }
 
   it "should have a total length of 384 characters" do
     PaymentFactory.create_esr_payment.record.size.should == 384
   end
 
-  describe PaymentGen::Records::ESRPayment, 'segment 1' do
+  describe PaymentGen::DTARecords::ESRPayment, 'segment 1' do
     it 'should set the segment field to 01' do
       PaymentFactory.create_esr_payment.segment1[0,2].should == '01'
     end
@@ -45,7 +45,7 @@ describe 'PaymentGen::Records::ESRPayment' do
     end
   end
 
-  describe PaymentGen::Records::ESRPayment, 'segment 2' do
+  describe PaymentGen::DTARecords::ESRPayment, 'segment 2' do
     it 'should set the segment field to 02' do
       PaymentFactory.create_esr_payment.segment2[0,2].should == '02'
     end
@@ -75,7 +75,7 @@ describe 'PaymentGen::Records::ESRPayment' do
     end
   end
 
-  describe PaymentGen::Records::ESRPayment, 'segment 3' do
+  describe PaymentGen::DTARecords::ESRPayment, 'segment 3' do
 
     it 'should set the segment field to 03' do
       PaymentFactory.create_esr_payment.segment3[0,2].should == '03'
@@ -134,7 +134,7 @@ describe 'PaymentGen::Records::ESRPayment' do
     end
   end
 
-  describe PaymentGen::Records::ESRPayment, "comparison" do
+  describe PaymentGen::DTARecords::ESRPayment, "comparison" do
     it "should sort by execution date ascending" do
       @record1 = PaymentFactory.create_esr_payment(:requested_processing_date  => "091026")
       @record2 = PaymentFactory.create_esr_payment(:requested_processing_date  => "091027")

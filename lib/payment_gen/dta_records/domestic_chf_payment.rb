@@ -1,4 +1,4 @@
-class PaymentGen::Records::DomesticCHFPayment < PaymentGen::Records::Base
+class PaymentGen::DTARecords::DomesticCHFPayment < PaymentGen::DTARecords::Base
   include PaymentGen::PaymentSorting
 
   def record

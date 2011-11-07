@@ -1,4 +1,4 @@
-class PaymentGen::Records::ESRPayment < PaymentGen::Records::Base
+class PaymentGen::DTARecords::ESRPayment < PaymentGen::DTARecords::Base
  include PaymentGen::PaymentSorting
 
  def record
