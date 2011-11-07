@@ -2,7 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'payment_gen'
-require 'payment_factory'
+require 'dta_factory'
 
 RSpec.configure do |config|
 

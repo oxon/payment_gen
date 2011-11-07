@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class PaymentFactory
+class DTAFactory
   def self.create_payment(type, attributes = {})
     send("create_#{type.to_s}_payment",attributes)
   end
