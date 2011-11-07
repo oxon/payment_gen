@@ -33,6 +33,17 @@ module PaymentGen
 
     def <<(record)
       @records << record
+      recalculate_transaction_numbers
+    end
+
+    private
+
+    def recalculate_transaction_numbers
+      start = 1
+      @records.each do |record|
+        record.transaction_number = start
+        start += 1
+      end
     end
 
     def head_record

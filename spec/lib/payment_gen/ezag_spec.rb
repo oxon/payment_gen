@@ -40,7 +40,12 @@ describe PaymentGen::EZAG do
     end
 
     it "should contain a head record" do
-      @file_records.should include(subject.head_record.to_s + "\n")
+      @file_records.should include(subject.send(:head_record).to_s + "\n")
+    end
+
+    it "should set the transaction numbers of the two records" do
+      record1.transaction_number.should == '000001'
+      record2.transaction_number.should == '000002'
     end
   end
 
@@ -48,7 +53,7 @@ describe PaymentGen::EZAG do
     subject { PaymentGen::EZAG.new(default_attributes) }
 
     it "should have a head record" do
-      subject.head_record.should be_kind_of(PaymentGen::EZAGRecords::HeadRecord)
+      subject.send(:head_record).should be_kind_of(PaymentGen::EZAGRecords::HeadRecord)
     end
   end
 

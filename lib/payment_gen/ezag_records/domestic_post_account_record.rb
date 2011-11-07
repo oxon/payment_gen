@@ -6,10 +6,6 @@ module PaymentGen
         '22'
       end
 
-      def transaction_number
-        data[:transaction_number].to_s.rjust(6, '0')
-      end
-
       def source_currency
         data[:source_currency]
       end
