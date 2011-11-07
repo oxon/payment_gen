@@ -7,16 +7,8 @@ require 'payment_gen/dta'
 
 module PaymentGen
 
-  def self.generate(transaktions_nummer)
-    dta = PaymentGen::DTA.new(transaktions_nummer)
-    yield dta
-    dta
-  end
-
-  def self.create(transaktions_nummer, path, &block)
-    dta = generate(transaktions_nummer, &block)
-    dta.write_file(path)
-    dta
+  def self.dta
+    PaymentGen::DTA
   end
 
 end
