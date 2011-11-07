@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PaymentGen::Payments::DomesticCHFPayment do
+describe PaymentGen::Records::DomesticCHFPayment do
 
   it "should have a total length of 640 characters" do
     PaymentFactory.create_domestic_chf_payment.record.size.should == 640

@@ -12,14 +12,14 @@ class PaymentFactory
       :payment_amount => '3949.75',
       :ordering_party_bank_clearing_number => '253'
     }.merge(attributes)
-    PaymentGen::Payments::ESRPayment.new(build_attributes(default_attributes))
+    PaymentGen::Records::ESRPayment.new(build_attributes(default_attributes))
   end
 
   def self.create_domestic_chf_payment(attributes = {})
     default_attributes = {
       :requested_processing_date => Date.today.strftime('%y%m%d'),
     }.merge(attributes)
-    PaymentGen::Payments::DomesticCHFPayment.new(build_attributes(default_attributes))
+    PaymentGen::Records::DomesticCHFPayment.new(build_attributes(default_attributes))
   end
 
   def self.create_total_payment(attributes = {})
@@ -27,7 +27,7 @@ class PaymentFactory
       :data_file_sender_identification => 'PAYDT',
       :total_amount => 233.451,
     }.merge(attributes)
-    PaymentGen::Payments::TotalRecord.new(default_attributes)
+    PaymentGen::Records::TotalRecord.new(default_attributes)
   end
   class << self
     alias :create_total_record :create_total_payment

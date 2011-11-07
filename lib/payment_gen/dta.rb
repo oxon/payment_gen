@@ -55,8 +55,8 @@ module PaymentGen
     end
 
     def build_total_record
-      Payments::TotalRecord.new(:total_amount => total,
-                                :data_file_sender_identification => @records.first.data_file_sender_identification)
+      Records::TotalRecord.new(:total_amount => total,
+                               :data_file_sender_identification => @records.first.data_file_sender_identification)
     end
 
   end

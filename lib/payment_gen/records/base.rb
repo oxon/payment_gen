@@ -1,7 +1,7 @@
 require 'date'
 
 module PaymentGen
-  module Payments
+  module Records
     class Base
       include PaymentGen::CharacterConversion
 
