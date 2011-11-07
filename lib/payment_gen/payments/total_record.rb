@@ -1,4 +1,4 @@
-class DtaGen::Payments::TotalRecord < DtaGen::Payments::Base
+class PaymentGen::Payments::TotalRecord < PaymentGen::Payments::Base
   def segment1
     super + total_amount + reserve_field(59)
   end

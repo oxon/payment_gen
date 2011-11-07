@@ -1,9 +1,9 @@
 require 'date'
 
-module DtaGen
+module PaymentGen
   module Payments
     class Base
-      include DtaGen::CharacterConversion
+      include PaymentGen::CharacterConversion
 
       def initialize(data = {})
         @data = data.each { |k, v| data[k] = dta_string(v.to_s) }

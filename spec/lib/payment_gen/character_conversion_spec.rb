@@ -231,7 +231,7 @@ CONVERSION_MAP_UTF8 = {
 
 
 class Converter
-  extend DtaGen::CharacterConversion
+  extend PaymentGen::CharacterConversion
 end
 
 def create_character_from_ut8_decimal_code(code)

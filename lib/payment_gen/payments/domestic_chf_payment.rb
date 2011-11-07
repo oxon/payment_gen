@@ -1,5 +1,5 @@
-class DtaGen::Payments::DomesticCHFPayment < DtaGen::Payments::Base
-  include DtaGen::PaymentSorting
+class PaymentGen::Payments::DomesticCHFPayment < PaymentGen::Payments::Base
+  include PaymentGen::PaymentSorting
 
   def record
     @record ||= segment1 + segment2 + segment3 + segment4 + segment5

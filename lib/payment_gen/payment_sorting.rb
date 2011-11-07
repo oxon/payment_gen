@@ -1,4 +1,4 @@
-module DtaGen
+module PaymentGen
   module PaymentSorting
     include Comparable
 

@@ -1,4 +1,4 @@
-module DtaGen
+module PaymentGen
   module CharacterConversion
     CONVERSION_MAP_UTF8 = {
       32     => {:name => "SPACE", :convert_to => " "},

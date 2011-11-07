@@ -26,7 +26,7 @@ shared_examples_for "all headers" do
   end
 end
 
-describe DtaGen::Payments::ESRPayment, 'header' do
+describe PaymentGen::Payments::ESRPayment, 'header' do
   before(:each) do
     @type = :esr
   end
@@ -54,7 +54,7 @@ describe DtaGen::Payments::ESRPayment, 'header' do
   end
 end
 
-describe DtaGen::Payments::DomesticCHFPayment, 'header' do
+describe PaymentGen::Payments::DomesticCHFPayment, 'header' do
   before(:each) do
     @type = :domestic_chf
   end
@@ -81,7 +81,7 @@ describe DtaGen::Payments::DomesticCHFPayment, 'header' do
   end
 end
 
-describe DtaGen::Payments::TotalRecord, 'header' do
+describe PaymentGen::Payments::TotalRecord, 'header' do
   before(:each) do
     @type = :total
   end

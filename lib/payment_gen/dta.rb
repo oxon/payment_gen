@@ -1,6 +1,6 @@
 require 'set'
 
-module DtaGen
+module PaymentGen
   class DTA
     attr_reader :records
 
