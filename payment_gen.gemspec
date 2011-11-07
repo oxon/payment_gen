@@ -1,12 +1,12 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
 require "payment_gen/version"
 
 Gem::Specification.new do |s|
   s.name        = "payment_gen"
   s.version     = PaymentGen::VERSION
-  s.authors     = ["Yves Senn"]
-  s.email       = ["yves.senn@garaio.com"]
+  s.authors     = ["Yves Senn", "Michael Stämpfli"]
+  s.email       = ["yves.senn@garaio.com", "michael.staempfli@garaio.com"]
   s.homepage    = ""
   s.summary     = %q{generate DTA-files according to the SIX specification}
   s.description = %q{the specification can be found at: www.currency-iso.org/DE/dl_tkicch_dta.pdf}
