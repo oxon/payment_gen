@@ -29,6 +29,7 @@ module PaymentGen
     def write_to(io)
       io.puts head_record.to_s
       @records.each{|record| io.puts record.to_s}
+      io.puts total_record.to_s
     end
 
     def <<(record)
@@ -46,8 +47,22 @@ module PaymentGen
       end
     end
 
+    def totals
+      @records.inject({}) do |sums, record|
+        entry = (sums[record.source_currency] || {})
+        entry[:total] = (entry[:total] || 0) + record.native_payment_amount
+        entry[:transactions] = (entry[:transactions] || 0) + 1
+        sums[record.source_currency] = entry
+        sums
+      end
+    end
+
     def head_record
       EZAGRecords::HeadRecord.new @default_attributes
+    end
+
+    def total_record
+      EZAGRecords::TotalRecord.new @default_attributes.merge(:totals => totals)
     end
 
   end

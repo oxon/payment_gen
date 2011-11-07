@@ -14,6 +14,10 @@ module PaymentGen
         sprintf('%.2f', data[:payment_amount]).gsub(/\./, '').rjust(13, '0')
       end
 
+      def native_payment_amount
+        data[:payment_amount]
+      end
+
       def target_currency
         data[:target_currency]
       end

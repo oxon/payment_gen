@@ -3,6 +3,8 @@ require 'spec_helper'
 describe PaymentGen::EZAG do
 
   let(:default_attributes) { {:due_date => '2.4.2019', :account_number => '38-384722-8'} }
+  subject { PaymentGen::EZAG.new(default_attributes) }
+
   let(:ezag_file_path) { File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'tmp', 'payments.ezag')) }
 
   it "should generate an EZAG object" do
@@ -23,7 +25,6 @@ describe PaymentGen::EZAG do
   describe PaymentGen::EZAG, "file records" do
     let(:record1) { EZAGFactory.create_domestic_post_account_record }
     let(:record2) { EZAGFactory.create_domestic_post_account_record }
-    subject { PaymentGen::EZAG.new(default_attributes) }
 
     before :each do
       stream = StringIO.new
@@ -47,13 +48,38 @@ describe PaymentGen::EZAG do
       record1.transaction_number.should == '000001'
       record2.transaction_number.should == '000002'
     end
+
+    it "should contain a total record" do
+      @file_records.should include(subject.send(:total_record).to_s + "\n")
+    end
   end
 
   describe "head record" do
-    subject { PaymentGen::EZAG.new(default_attributes) }
-
-    it "should have a head record" do
+    it "should generate a head record" do
       subject.send(:head_record).should be_kind_of(PaymentGen::EZAGRecords::HeadRecord)
+    end
+  end
+
+  describe "total record" do
+    it "should generate a total record" do
+      subject.send(:total_record).should be_kind_of(PaymentGen::EZAGRecords::TotalRecord)
+    end
+  end
+
+  describe "#totals" do
+    it "calculates the total for one currency" do
+      subject << EZAGFactory.create_domestic_post_account_record(:payment_amount => 83)
+      subject << EZAGFactory.create_domestic_post_account_record(:payment_amount => 95.3)
+      subject.send(:totals).should == {'CHF' => {:total => 178.3, :transactions => 2}}
+    end
+
+    it "separates different currencies" do
+      subject << EZAGFactory.create_domestic_post_account_record(:payment_amount => 83)
+      subject << EZAGFactory.create_domestic_post_account_record(:payment_amount => 95.3, :source_currency => 'DOL')
+      subject.send(:totals).should == {
+        'CHF' => {:total => 83, :transactions => 1},
+        'DOL' => {:total => 95.3, :transactions => 1}
+      }
     end
   end
 

@@ -20,6 +20,10 @@ class EZAGFactory
     PaymentGen::EZAGRecords::DomesticPostAccountRecord.new(build_attributes(default_attributes))
   end
 
+  def self.create_total_record(attributes = {})
+    PaymentGen::EZAGRecords::TotalRecord.new(attributes)
+  end
+
   def self.build_attributes(attributes)
     {
       :account_number => '84-284732-2'
