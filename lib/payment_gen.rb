@@ -13,4 +13,8 @@ module PaymentGen
     PaymentGen::DTA
   end
 
+  def self.ezag
+    PaymentGen::EZAG
+  end
+
 end

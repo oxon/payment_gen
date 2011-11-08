@@ -8,4 +8,10 @@ describe PaymentGen do
     end
   end
 
+  describe "#ezag" do
+    it "returns the EZAG class" do
+      PaymentGen.ezag.should == PaymentGen::EZAG
+    end
+  end
+
 end
