@@ -17,7 +17,7 @@ describe PaymentGen::EZAG do
 
   it "should create a file" do
     PaymentGen::EZAG.create(ezag_file_path, default_attributes) do |ezag|
-      ezag << EZAGFactory.create_domestic_post_account_record
+      ezag << EZAGFactory.create_domestic_post_account_record(default_attributes)
     end
     File.exist?(ezag_file_path).should be_true
   end
