@@ -42,6 +42,15 @@ describe PaymentGen::DTA do
     file.total.should == (420.50 + 320.20)
   end
 
+  it "should calculate the total amount" do
+    file = PaymentGen::DTA.new
+    file << DTAFactory.create_esr_payment(:payment_amount => 67.95)
+    file << DTAFactory.create_esr_payment(:payment_amount => 8204.70)
+    file << DTAFactory.create_esr_payment(:payment_amount => 977.00)
+    file.total.should == 9249.65
+  end
+
+
   describe PaymentGen::DTA, "file records" do
     before(:each) do
       @record1 = DTAFactory.create_esr_payment(:payment_amount => 2222.22)
@@ -61,7 +70,7 @@ describe PaymentGen::DTA do
     end
 
     it "should add a total record" do
-      @file_records.last.should include(DTAFactory.create_total_record(:total_amount => 6666.66).to_dta)
+      @file_records.last.should include(DTAFactory.create_total_record(:total_amount => '6666.66').to_dta)
     end
   end
 

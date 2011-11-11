@@ -1,4 +1,5 @@
 require 'set'
+require 'bigdecimal'
 
 module PaymentGen
   class DTA
@@ -34,8 +35,8 @@ module PaymentGen
 
     def total
       @records.inject(0) do |sum, record|
-        sum + record.amount.to_f
-      end
+        sum + BigDecimal.new(record.amount.to_s)
+      end.round(3)
     end
 
     def <<(record)
@@ -55,7 +56,7 @@ module PaymentGen
     end
 
     def build_total_record
-      DTARecords::TotalRecord.new(:total_amount => total,
+      DTARecords::TotalRecord.new(:total_amount => total.to_s('F'),
                                   :data_file_sender_identification => @records.first.data_file_sender_identification)
     end
 
