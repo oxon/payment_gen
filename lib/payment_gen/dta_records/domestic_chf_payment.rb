@@ -47,7 +47,7 @@ class PaymentGen::DTARecords::DomesticCHFPayment < PaymentGen::DTARecords::Base
   end
 
   def build_segment2
-     super + ordering_partys_address + reserve_field(30)
+     super + ordering_partys_address + posting_text(30)
   end
 
   def build_segment3

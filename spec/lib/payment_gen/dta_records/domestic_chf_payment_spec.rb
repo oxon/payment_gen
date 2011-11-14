@@ -69,8 +69,8 @@ describe PaymentGen::DTARecords::DomesticCHFPayment do
       DTAFactory.create_domestic_chf_payment(:ordering_partys_address_line4 => 'Schweiz').segment2[74,24].should == 'Schweiz'.ljust(24)
     end
 
-    it 'should have a reserve field' do
-      DTAFactory.create_domestic_chf_payment.segment2[98,30].should == ''.ljust(30)
+    it 'should have a posting text ' do
+      DTAFactory.create_domestic_chf_payment(:posting_text => 'Invoice 1234').segment2[98..-1].should == 'Invoice 1234                  '
     end
 
     it 'should have a length of 128 characters' do

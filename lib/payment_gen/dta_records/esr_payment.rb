@@ -36,7 +36,7 @@ class PaymentGen::DTARecords::ESRPayment < PaymentGen::DTARecords::Base
  end
 
  def build_segment2
-   super + ordering_partys_address(20) + reserve_field(46)
+   super + ordering_partys_address(20) + posting_text(46)
  end
 
  def build_segment3

@@ -249,6 +249,10 @@ module PaymentGen
         @data[:rule_of_charge].to_s[0,1]
       end
 
+      def posting_text(line_size=46)
+        @data[:posting_text].to_s.ljust(line_size)
+      end
+
       protected
 
       def build_segment1

@@ -66,8 +66,8 @@ describe 'PaymentGen::DTARecords::ESRPayment' do
       DTAFactory.create_esr_payment(:ordering_partys_address_line4 => 'Schweiz').segment2[62,20].should == 'Schweiz'.ljust(20)
     end
 
-    it 'should have a reserve field' do
-      DTAFactory.create_esr_payment.segment2[82,46].should == ''.ljust(46)
+    it 'should have a posting text ' do
+      DTAFactory.create_esr_payment(:posting_text => 'Invoice 1234').segment2[82..-1].should == 'Invoice 1234                                  '
     end
 
     it 'should have a length of 128 characters' do
