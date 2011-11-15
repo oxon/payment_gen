@@ -44,7 +44,6 @@ module PaymentGen
       ensure_not_finished!
       record.transaction_number = @transaction_number
       @records << record
-      recalculate_entry_sequence_numbers
     end
 
     def finish
