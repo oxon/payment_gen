@@ -1,6 +1,5 @@
 require "payment_gen/version"
 
-require 'payment_gen/payment_sorting'
 require 'payment_gen/character_conversion'
 require "payment_gen/dta_records"
 require 'payment_gen/dta'

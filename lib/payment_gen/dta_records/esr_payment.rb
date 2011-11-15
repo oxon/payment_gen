@@ -1,5 +1,4 @@
 class PaymentGen::DTARecords::ESRPayment < PaymentGen::DTARecords::Base
- include PaymentGen::PaymentSorting
 
  def record
    @record ||= segment1 + segment2 + segment3

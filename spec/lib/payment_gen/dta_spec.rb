@@ -73,26 +73,4 @@ describe PaymentGen::DTA do
       @file_records.last.should include(DTAFactory.create_total_record(:total_amount => '6666.66').to_dta)
     end
   end
-
-  describe PaymentGen::DTA, "record sorting" do
-    before(:each) do
-      @record1 = DTAFactory.create_esr_payment(:requested_processing_date  => "091027", :issuer_identification => "AAAAA")
-      @record2 = DTAFactory.create_esr_payment(:requested_processing_date  => "091026",:issuer_identification => "BBBBB")
-      @record3 = DTAFactory.create_esr_payment(:requested_processing_date  => "091026",:issuer_identification => "CCCCC")
-      @record4 = DTAFactory.create_esr_payment(:requested_processing_date  => "091028",:issuer_identification => "AAAAA")
-      @dta_file = PaymentGen::DTA.new
-      @dta_file << @record1
-      @dta_file << @record2
-      @dta_file << @record3
-      @dta_file << @record4
-    end
-
-    it "should add all records to it" do
-      @dta_file.records.size.should equal(4)
-    end
-
-    it "should sort the records" do
-      @dta_file.records.to_a.should == [@record1, @record2,@record3, @record4].sort
-    end
-  end
 end

@@ -1,5 +1,4 @@
 class PaymentGen::DTARecords::DomesticCHFPayment < PaymentGen::DTARecords::Base
-  include PaymentGen::PaymentSorting
 
   def record
     @record ||= segment1 + segment2 + segment3 + segment4 + segment5
