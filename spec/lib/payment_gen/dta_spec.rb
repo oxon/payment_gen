@@ -10,7 +10,7 @@ describe PaymentGen::DTA do
       dta << DTAFactory.create_esr_payment
     end
     result.should be_kind_of(PaymentGen::DTA)
-    result.records.should have(1).item
+    result.records.should have(2).items
   end
 
   it "should create a file" do
@@ -30,9 +30,8 @@ describe PaymentGen::DTA do
     file = PaymentGen::DTA.new
     file << DTAFactory.create_esr_payment
     file << DTAFactory.create_esr_payment
-
-    file.records.to_a.first.entry_sequence_number.should == "00001"
-    file.records.to_a[1].entry_sequence_number.should == "00002"
+    file.finish
+    file.records.map(&:entry_sequence_number).should == ['00001', '00002', '00003']
   end
 
   it "should calculate the total amount" do
@@ -50,6 +49,50 @@ describe PaymentGen::DTA do
     file.total.should == 9249.65
   end
 
+  context "finishing" do
+    it "must be finished when done adding records" do
+      file = PaymentGen::DTA.new
+      file << DTAFactory.create_esr_payment
+      file << DTAFactory.create_esr_payment
+      file.finish
+      file.records.should have(3).items
+    end
+
+    it "can't add more records once it is finished" do
+      file = PaymentGen::DTA.new
+      file << DTAFactory.create_esr_payment
+      file.finish
+      lambda do
+        file << DTAFactory.create_esr_payment
+      end.should raise_error('the DTA has already been finished!')
+    end
+
+    it "can't be finished when no records have been added" do
+      file = PaymentGen::DTA.new
+      lambda do
+        file.finish
+      end.should raise_error('you need to add records before finishing the DTA!')
+    end
+
+    it "can't be finished twice" do
+      file = PaymentGen::DTA.new
+      file << DTAFactory.create_esr_payment
+      file.finish
+      lambda do
+        file.finish
+      end.should raise_error('the DTA has already been finished!')
+    end
+  end
+
+  describe 'output' do
+    it "can't be written to a stream unless it is finished" do
+      file = PaymentGen::DTA.new
+      file << DTAFactory.create_esr_payment
+      lambda do
+        file.write_to(StringIO.new)
+      end.should raise_error('the DTA must be finished before you can write it.')
+    end
+  end
 
   describe PaymentGen::DTA, "file records" do
     before(:each) do
@@ -59,6 +102,7 @@ describe PaymentGen::DTA do
       @dta_file = PaymentGen::DTA.new
       @dta_file << @record1
       @dta_file << @record2
+      @dta_file.finish
       @dta_file.write_to(stream)
       stream.rewind
       @file_records = stream.readlines
@@ -70,7 +114,7 @@ describe PaymentGen::DTA do
     end
 
     it "should add a total record" do
-      @file_records.last.should include(DTAFactory.create_total_record(:total_amount => '6666.66').to_dta)
+      @file_records.last.should include("01000000            00000111115       PAYDT00003890006666,66                                                                    \n")
     end
   end
 end

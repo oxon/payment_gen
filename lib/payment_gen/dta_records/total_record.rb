@@ -26,4 +26,8 @@ class PaymentGen::DTARecords::TotalRecord < PaymentGen::DTARecords::Base
   def requested_processing_date
     '000000'
   end
+
+  def <=>(other)
+    -1
+  end
 end
