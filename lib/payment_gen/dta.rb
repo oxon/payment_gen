@@ -31,7 +31,7 @@ module PaymentGen
 
     def write_to(io)
       raise 'the DTA must be finished before you can write it.' unless @finished
-      @records.each{|record| io.puts record.to_dta}
+      @records.each{|record| io.print record.to_dta}
     end
 
     def total

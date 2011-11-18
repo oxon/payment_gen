@@ -96,6 +96,7 @@ describe PaymentGen::DTA do
 
   describe PaymentGen::DTA, "file records" do
     before(:each) do
+      Date.stub(:today).and_return(Date.new(2011, 11, 15))
       @record1 = DTAFactory.create_esr_payment(:payment_amount => 2222.22)
       @record2 = DTAFactory.create_esr_payment(:payment_amount => 4444.44)
       stream = StringIO.new
@@ -105,16 +106,17 @@ describe PaymentGen::DTA do
       @dta_file.finish
       @dta_file.write_to(stream)
       stream.rewind
-      @file_records = stream.readlines
+      @file_records = stream.readlines.join('')
     end
 
     it "should add the records to the file in dta format" do
-      @file_records.should include(@record2.to_dta + "\n")
-      @file_records.should include(@record2.to_dta + "\n")
+      @file_records.should include(@record2.to_dta)
+      @file_records.should include(@record2.to_dta)
+      @file_records.should_not include("\n")
     end
 
     it "should add a total record" do
-      @file_records.last.should include("01000000            00000111115       PAYDT00003890006666,66                                                                    \n")
+      @file_records[-128..-1].should == "01000000            00000111115       PAYDT00003890006666,66                                                                    "
     end
   end
 end
