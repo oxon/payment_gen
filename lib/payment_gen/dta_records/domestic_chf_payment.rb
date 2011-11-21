@@ -37,6 +37,7 @@ class PaymentGen::DTARecords::DomesticCHFPayment < PaymentGen::DTARecords::Base
   end
 
   def end_beneficiarys_bank_account_number
+    return if @data[:end_beneficiarys_bank_account_number].nil? || @data[:end_beneficiarys_bank_account_number].empty?
     "/C/#{@data[:end_beneficiarys_bank_account_number]}".ljust(30)
   end
   protected
@@ -58,6 +59,7 @@ class PaymentGen::DTARecords::DomesticCHFPayment < PaymentGen::DTARecords::Base
   end
 
   def build_segment5
+    return '' unless end_beneficiarys_bank_account_number
     super + end_beneficiarys_bank_account_number + end_beneficiary_address
   end
 end

@@ -2,9 +2,14 @@ require 'spec_helper'
 
 describe PaymentGen::DTARecords::DomesticCHFPayment do
 
-  it "should have a total length of 640 characters" do
-    DTAFactory.create_domestic_chf_payment.record.size.should == 640
+  it "should have a total length of 640 characters with end beneficiary" do
+    DTAFactory.create_domestic_chf_payment(:end_beneficiarys_bank_account_number =>'1').record.size.should == 640
   end
+
+  it "should have a total length of 512 characters" do
+    DTAFactory.create_domestic_chf_payment.record.size.should == 512
+  end
+
 
   describe 'segment 1' do
     it 'should set the segment field to 01' do
@@ -139,32 +144,43 @@ describe PaymentGen::DTARecords::DomesticCHFPayment do
   end
 
   describe 'segment 5' do
+    subject { DTAFactory.create_domestic_chf_payment(:end_beneficiarys_bank_account_number =>'111222333',
+                                                     :end_beneficiary_address_line1 => 'Michael Recipient',
+                                                     :end_beneficiary_address_line2 => 'Empfaengerstrasse 1',
+                                                     :end_beneficiary_address_line3 => '8640 Rapperswil',
+                                                     :end_beneficiary_address_line4 => 'Schweiz'
+                                                     ) }
     it 'should set the segment field to 05' do
-      DTAFactory.create_domestic_chf_payment.segment5[0,2].should == '05'
+      subject.segment5[0,2].should == '05'
     end
 
     it 'should have the end beneficiarys bank account number' do
-    DTAFactory.create_domestic_chf_payment(:end_beneficiarys_bank_account_number =>'111222333').segment5[2,30].should == '/C/111222333'.ljust(30)
+      subject.segment5[2,30].should == '/C/111222333'.ljust(30)
+    end
+
+    it 'should be nil when no end beneficiarys bank account number is given' do
+    DTAFactory.create_domestic_chf_payment(:end_beneficiarys_bank_account_number =>'').segment5.should == ''
+
     end
 
     it 'should have an end beneficiary address line 1' do
-      DTAFactory.create_domestic_chf_payment(:end_beneficiary_address_line1 => 'Michael Recipient').segment5[32,24].should == 'Michael Recipient'.ljust(24)
+      subject.segment5[32,24].should == 'Michael Recipient'.ljust(24)
     end
 
     it 'should have an beneficiary address line 2' do
-      DTAFactory.create_domestic_chf_payment(:end_beneficiary_address_line2 => 'Empfaengerstrasse 1').segment5[56,24].should == 'Empfaengerstrasse 1'.ljust(24)
+      subject.segment5[56,24].should == 'Empfaengerstrasse 1'.ljust(24)
     end
 
     it 'should have an end beneficiary address line 3' do
-      DTAFactory.create_domestic_chf_payment(:end_beneficiary_address_line3 => '8640 Rapperswil').segment5[80,24].should == '8640 Rapperswil'.ljust(24)
+      subject.segment5[80,24].should == '8640 Rapperswil'.ljust(24)
     end
 
     it 'should have an end beneficiary address line 4' do
-      DTAFactory.create_domestic_chf_payment(:end_beneficiary_address_line4 => 'Schweiz').segment5[104,24].should == 'Schweiz'.ljust(24)
+      subject.segment5[104,24].should == 'Schweiz'.ljust(24)
     end
 
     it 'should have a length of 128 characters' do
-      DTAFactory.create_domestic_chf_payment.segment5.size.should == 128
+      subject.segment5.size.should == 128
     end
   end
 end
