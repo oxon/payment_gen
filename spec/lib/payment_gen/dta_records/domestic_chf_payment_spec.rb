@@ -33,7 +33,7 @@ describe PaymentGen::DTARecords::DomesticCHFPayment do
     end
 
     it 'should have a payment amount currency code' do
-     DTAFactory.create_domestic_chf_payment(:payment_amount_currency => 'CHF').segment1[99,3].should == 'CHF'
+      DTAFactory.create_domestic_chf_payment(:payment_amount_currency => 'CHF').segment1[99,3].should == 'CHF'
     end
 
     it 'should have a payment amount justified left filled with blanks' do
@@ -88,24 +88,31 @@ describe PaymentGen::DTARecords::DomesticCHFPayment do
       DTAFactory.create_domestic_chf_payment.segment3[0,2].should == '03'
     end
 
-    it 'should have the beneficiarys bank account number' do
-    DTAFactory.create_domestic_chf_payment(:beneficiarys_bank_account_number =>'111222333').segment3[2,30].should == '/C/111222333'.ljust(30)
+    describe 'beneficiary bank account number' do
+      it 'should have the beneficiarys bank account number' do
+        DTAFactory.create_domestic_chf_payment(:beneficiarys_bank_account_number =>'111222333').segment3[2,30].should == '/C/111222333                  '
+      end
+
+      it 'never contains any spaces' do
+        record = DTAFactory.create_domestic_chf_payment(:beneficiarys_bank_account_number => 'CH10 0023 000A 1098 2234 6')
+        record.segment3[2, 30].should == '/C/CH100023000A109822346      '
+      end
     end
 
     it 'should have a  address line 1' do
-      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line1 => 'Michael Recipient').segment3[32,24].should == 'Michael Recipient'.ljust(24)
+      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line1 => 'Michael Recipient').segment3[32,24].should == 'Michael Recipient       '
     end
 
     it 'should have a beneficiary address line 2' do
-      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line2 => 'Empfaengerstrasse 1').segment3[56,24].should == 'Empfaengerstrasse 1'.ljust(24)
+      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line2 => 'Empfaengerstrasse 1').segment3[56,24].should == 'Empfaengerstrasse 1     '
     end
 
     it 'should have a beneficiary address line 3' do
-      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line3 => '8640 Rapperswil').segment3[80,24].should == '8640 Rapperswil'.ljust(24)
+      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line3 => '8640 Rapperswil').segment3[80,24].should == '8640 Rapperswil         '
     end
 
     it 'should have a beneficiary address line 4' do
-      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line4 => 'Schweiz').segment3[104,24].should == 'Schweiz'.ljust(24)
+      DTAFactory.create_domestic_chf_payment(:beneficiary_address_line4 => 'Schweiz').segment3[104,24].should == 'Schweiz                 '
     end
 
     it 'should have a length of 128 characters' do
@@ -159,7 +166,7 @@ describe PaymentGen::DTARecords::DomesticCHFPayment do
     end
 
     it 'should be nil when no end beneficiarys bank account number is given' do
-    DTAFactory.create_domestic_chf_payment(:end_beneficiarys_bank_account_number =>'').segment5.should == ''
+      DTAFactory.create_domestic_chf_payment(:end_beneficiarys_bank_account_number =>'').segment5.should == ''
 
     end
 

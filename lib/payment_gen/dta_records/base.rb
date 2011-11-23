@@ -197,10 +197,6 @@ module PaymentGen
         @data[:identification_bank_address].to_s
       end
 
-      def beneficiary_bank_account_number
-        "/C/#{@data[:beneficiary_bank_account_number].to_s}".ljust(24)
-      end
-
       def beneficiary_institution_bank_account_number
         "/C/#{@data[:beneficiary_institution_bank_account_number]}".ljust(24)
       end

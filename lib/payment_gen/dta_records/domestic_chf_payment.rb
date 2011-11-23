@@ -13,7 +13,8 @@ class PaymentGen::DTARecords::DomesticCHFPayment < PaymentGen::DTARecords::Base
   end
 
   def beneficiarys_bank_account_number
-    "/C/#{@data[:beneficiarys_bank_account_number]}".ljust(30)
+    plain_number = @data[:beneficiarys_bank_account_number].to_s.gsub(' ', '')
+    "/C/#{plain_number}".ljust(30)
   end
 
   def end_beneficiary_address
