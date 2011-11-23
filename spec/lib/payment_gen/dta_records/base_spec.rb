@@ -66,6 +66,24 @@ describe PaymentGen::DTARecords::Base do
     end
   end
 
+  describe "reason for payment message" do
+    it "fills with spaces" do
+      record = PaymentGen::DTARecords::Base.new(:reason_for_payment_message_line1 => 'line 1',
+                                                :reason_for_payment_message_line2 => 'line 2',
+                                                :reason_for_payment_message_line3 => 'line 3',
+                                                :reason_for_payment_message_line4 => 'line 4')
+      record.reason_for_payment_message(10).should == 'line 1    line 2    line 3    line 4    '
+    end
+
+    it "trims, when the maximum length is exceeded" do
+      record = PaymentGen::DTARecords::Base.new(:reason_for_payment_message_line1 => 'this-is-to-long',
+                                                :reason_for_payment_message_line2 => 'this-is-to-long',
+                                                :reason_for_payment_message_line3 => 'this-is-to-long',
+                                                :reason_for_payment_message_line4 => 'this-is-to-long')
+      record.reason_for_payment_message(7).should == 'this-isthis-isthis-isthis-is'
+    end
+  end
+
   it "fills the posting text with spaces" do
     record = PaymentGen::DTARecords::Base.new(:posting_text => 'Invoice 123')
     record.posting_text(50).should == "Invoice 123                                       "
