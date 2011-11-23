@@ -66,4 +66,9 @@ describe PaymentGen::DTARecords::Base do
     end
   end
 
+  it "fills the posting text with spaces" do
+    record = PaymentGen::DTARecords::Base.new(:posting_text => 'Invoice 123')
+    record.posting_text(50).should == "Invoice 123                                       "
+  end
+
 end

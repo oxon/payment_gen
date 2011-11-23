@@ -250,7 +250,7 @@ module PaymentGen
       end
 
       def posting_text(line_size=46)
-        @data[:posting_text].to_s.ljust(line_size)
+        @data[:posting_text].to_s[0, line_size].ljust(line_size)
       end
 
       protected
