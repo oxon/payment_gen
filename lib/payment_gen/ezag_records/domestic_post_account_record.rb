@@ -27,11 +27,11 @@ module PaymentGen
       end
 
       def receiver_account_number
-        data[:receiver_account_number].gsub(/-/, '')
+        data[:receiver_account_number].gsub(/-/, '').ljust(9)
       end
 
       def end_beneficiary_account_number
-        data[:end_beneficiary_account_number]
+        (data[:end_beneficiary_account_number] || '').ljust(35)
       end
 
       def receiver_name
