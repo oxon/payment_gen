@@ -8,6 +8,18 @@ class EZAGFactory
     PaymentGen::EZAGRecords::HeadRecord.new(attributes)
   end
 
+  def self.create_domestic_bank_account_record(attributes = {})
+    default_attributes = {
+      :payment_amount => 83.5,
+      :receiver_account_number => '83-893823-5',
+      :receiver_name => 'Ueli',
+      :source_currency => 'CHF',
+      :target_currency => 'CHF',
+      :land_code => 'CH'
+    }.merge attributes
+    PaymentGen::EZAGRecords::DomesticBankAccountRecord.new(build_attributes(default_attributes))
+  end
+
   def self.create_domestic_post_account_record(attributes = {})
     default_attributes = {
       :payment_amount => 83.5,
