@@ -33,6 +33,10 @@ module PaymentGen
         data[:receiver_name].ljust(35, ' ')
       end
 
+      def reference_number
+        (data[:reference_number] || '').rjust(27, '0')
+      end
+
       def additional_identification
         (data[:additional_identification] || '').ljust(35, ' ')
       end
