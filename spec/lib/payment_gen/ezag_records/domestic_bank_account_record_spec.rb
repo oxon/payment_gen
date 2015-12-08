@@ -4,7 +4,7 @@ require 'spec_helper'
 describe PaymentGen::EZAGRecords::DomesticBankAccountRecord do
 
   describe "control section" do
-    it "should set the transaction type to 22" do
+    it "should set the transaction type to 27" do
       EZAGFactory.create_domestic_bank_account_record.transaction_type.should == '27'
     end
   end
